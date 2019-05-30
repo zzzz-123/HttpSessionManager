@@ -1,0 +1,6 @@
+framework module HttpSessionManager {
+  umbrella header "HttpSessionManager-umbrella.h"
+
+  export *
+  module * { export * }
+}

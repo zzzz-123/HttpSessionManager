@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'HttpSessionManager_Example' do
+  pod 'HttpSessionManager', :path => '../'
+
+  target 'HttpSessionManager_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
