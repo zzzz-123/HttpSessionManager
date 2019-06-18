@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'HttpSessionManager'
   s.version          = '1.0.0'
-  s.summary          = 'Http网络请求管理库'
+  s.summary          = 'Universal network request library'
   s.swift_version    = '4.2'
 
 # This description is used to generate tags and improve search results.
