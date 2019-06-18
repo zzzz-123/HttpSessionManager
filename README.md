@@ -1,28 +1,70 @@
 # HttpSessionManager
-熟悉Alamofire和Moya二个网络请求框架后，自己基于Alamofire编写的1个通用型的网络请求库，简洁方便实用。
-### 语言
-Swift4.2
-### Cocoapods进行安装
+
+After learning 'Alamofire' and 'Moya', I packaged a general-purpose network request library based on Alamofire, which is simple, convenient and practical.
+
+## Getting Started
+
+Download HttpSessionManager，have a try with the example.
+
+### Requirements
+
 ```
-pod 'HttpSessionManager'
+iOS 8.0+
+Xcode 10.1+
+Swift 4.2+
 ```
-### 使用说明（可以参考Example）
-1.建一个网络请求配置类，实现RequestConfigProtocol协议。<br>
-2.在App启动后未发起网络请求前设置HttpSessionManager.shared.config。<br>
-3.网络请求接口实现TargetType协议。<br>
-4.发起网络请求。
-### 业务层的简单使用
+
+### Installing
+
+HttpSessionManager supports multiple methods for installing the library in a project.
+
+1.CocoaPods
 ```
-// 1.定义网络请求接口
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+
+target 'TargetName' do
+pod 'HttpSessionManager', '~> 1.0.0'
+end
+```
+2.Manually  
+you can drag the downloaded code directly into your project.
+
+### Usage
+1. Create a new class that implement protocol of 'RequestConfigProtocol'  
+```
+class RequestConfig: RequestConfigProtocol {
+    
+    /// Adding to path ,retrun URL.
+    public func getBaseURL(path: String) -> URL {
+        return URL(string: "https://github.com")!
+    }
+    
+    /// request headers
+    public var headers: [String: String]? {
+        return nil
+    }
+    /// and so on.
+}
+```
+2. Setting configuration for HttpSessionManager.shared.
+```
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:[UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Override point for customization after application launch.
+     
+    HttpSessionManager.shared..config = RequestConfig()
+    return true
+}
+```
+3.Network request API  
+```
 enum UserAPI {
     //获取用户信息
     case userInfo
     //修改用户信息
     case modifyNickname(nickname: String)
 }
-```
-```
-// 2.实现网络请求接口
+
 extension UserAPI: TargetType {
     var path: String {
         switch self {
@@ -40,8 +82,8 @@ extension UserAPI: TargetType {
             return ["nickname": nickname]
         }
     }
-    // ...每个网络请求接口，TargetType协议里的实现可不一样。
-    /// Optional。比如每个接口 可以有不同的请求地址。
+    /// Optional 
+    /// Each network request interface, the implementation in the TargetType protocol can be different.
     var customURL: URL? {
         switch self {
         case .userInfo:
@@ -50,21 +92,41 @@ extension UserAPI: TargetType {
             return URL.init(string: "b地址")
         }
     }
-} 
+    /// and so on.
+}
 ```
+4. Call API like this  
 ```
-/// 3.发起网络请求
-HttpSessionManager.shared.request(target: MultiTarget(UserAPI.userInfo)) { result in
-    switch result {
-    case .success(let successRes):
-        print(successRes)
-    case .failure(let failRes):
-        print(failRes.returnMsg)
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        HttpSessionManager.shared.request(target: MultiTarget(UserAPI.userInfo)) { result in
+            switch result {
+            case .success(let successRes):
+                print(successRes)
+            case .failure(let failRes):
+                print(failRes.returnMsg)
+            }
+        }
     }
 }
 ```
-### 优点
-1.RequestConfigProtocol接口丰富，全局配置方便。<br>
-2.TargetType接口丰富，每个网络请求可自定义度高，比如每个网络请求可以配置不同的请求地址、加解密方法、超时时间、请求头等。<br>
-3.稳定性好，扩展性强。<br>
 
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Authors
+
+* **zhengrusong**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
