@@ -59,9 +59,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 3.Network request API  
 ```
 enum UserAPI {
-    //获取用户信息
+    // get user info.
     case userInfo
-    //修改用户信息
+    // modify user nickname.
     case modifyNickname(nickname: String)
 }
 
@@ -87,9 +87,9 @@ extension UserAPI: TargetType {
     var customURL: URL? {
         switch self {
         case .userInfo:
-            return URL.init(string: "a地址")
+            return URL(string: "https://xxx")
         case .modifyNickname:
-            return URL.init(string: "b地址")
+            return URL(string: "https://yyy")
         }
     }
     /// and so on.
